@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --background-rgb: 255 255 255;
+  --foreground: #0b1220;
+
+  /* Design tokens sampled from provided screenshot */
+  --color-primary: 30 136 255; /* #1E88FF - strong blue */
+  --color-accent: 79 70 229; /* #4F46E5 - violet accent (matches radial gradient) */
+  --color-surface: 7 16 38; /* #071026 - dark card surface */
+  --color-muted: 107 114 128; /* #6B7280 - muted/secondary text */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
