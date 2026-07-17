@@ -9,11 +9,13 @@ export default function ContactForm() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setStatus(null);
+    setStatusMessage(null);
 
     try {
       const res = await fetch("/api/contact", {
@@ -25,15 +27,18 @@ export default function ContactForm() {
       const data = await res.json();
       if (res.ok && data?.success) {
         setStatus("success");
+        setStatusMessage(data.message || "Thanks — we will contact you shortly.");
         setName("");
         setEmail("");
         setCompany("");
         setMessage("");
       } else {
         setStatus("error");
+        setStatusMessage(data?.message || "Submission failed. Try again.");
       }
     } catch (err) {
       setStatus("error");
+      setStatusMessage("Submission failed. Check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -83,8 +88,12 @@ export default function ContactForm() {
         >
           {loading ? "Sending…" : "Submit inquiry"}
         </button>
-        {status === "success" && <div className="text-sm text-cyan-200">Thanks — we will contact you shortly.</div>}
-        {status === "error" && <div className="text-sm text-rose-400">Submission failed. Try again.</div>}
+        {status === "success" && (
+          <div className="text-sm text-cyan-200" aria-live="polite">{statusMessage}</div>
+        )}
+        {status === "error" && (
+          <div className="text-sm text-rose-400" aria-live="polite">{statusMessage}</div>
+        )}
       </div>
     </form>
   );
